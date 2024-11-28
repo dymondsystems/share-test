@@ -1,63 +1,124 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Test</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" 
+      type="image/png" 
+      href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Leaf_font_awesome.svg/1024px-Leaf_font_awesome.svg.png">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+ 
+ 
+ <meta property="og:title" content="Learning center" />
+<meta property="og:type" content="company" />
+<meta property="og:site_name" content="learning center " />
+<meta property="og:description" content=" Learning center 
+" />
+
+
+<meta property="og:url" content="Learning center" />
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Leaf_font_awesome.svg/1024px-Leaf_font_awesome.svg.png" />
+
+
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
 <html>
 <head>
   <title>Dynamic Mailto and SMS Links</title>
+  <style>
+    #messagePreview {
+      border: 1px solid black;
+      padding: 10px;
+      margin-bottom: 10px;
+      width:400px;
+      height:200px;
+    }
+  </style>
 </head>
 <body>
   <form id="emailForm">
     <label for="name">Your Name:</label>
     <input type="text" id="name" name="name">
     <br>
+    
+    
     <label for="email1">Email 1:</label>
     <input type="email" id="email1" name="email1">
     <br>
+    <button type="button" class="btn btn-success pushme3 with-color" data-toggle="collapse" data-target="#demo">add</button>
+    
+    
+    
+  <div id="demo" class="collapse">
     <label for="email2">Email 2:</label>
     <input type="email" id="email2" name="email2">
+    <br>
+    
+    <button type="button" class="btn btn-success pushme3 with-color" data-toggle="collapse" data-target="#demo2">Add another</button>
+    
+    <button type="submit" data-target="#" data-toggle="collapse">Generate Links</button>
+  <div id="demo2" class="collapse">
     <br>
     <label for="email3">Email 3:</label>
     <input type="email" id="email3" name="email3">
     <br>
     <button type="submit">Generate Links</button>
   </form>
+</div>
+  <div id="messagePreview"></div>
+  <div id="buttonContainer"></div>
 
-  <div id="linkContainer"></div>
+  <script>
+    const form = document.getElementById('emailForm');
+    const messagePreview = document.getElementById('messagePreview');
+    const buttonContainer = document.getElementById('buttonContainer');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email1 = document.getElementById('email1').value;
+      const email2 = document.getElementById('email2').value;
+      const email3 = document.getElementById('email3').value; 1 
+      const baseUrl = 'https://dymond.systems/page.html?name=';
+      const url = baseUrl + encodeURIComponent(name);
+
+      const subject = `Hello, ${name}!`;
+      const body = `This is a test email. Check out this link: ${url}`;
+      const toAddresses = [email1, email2, email3].filter(email => email.trim() !== '');
+      const toAddressString = toAddresses.join(',');
+
+      const mailtoUrl = `mailto:${toAddressString}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const smsBody = `Hi ${name}, ${body}`;
+
+      messagePreview.textContent = `${body}`;
+
+      const mailtoButton = document.createElement('button');
+      mailtoButton.textContent = 'Send Email';
+      mailtoButton.onclick = () => {
+        window.location.href = mailtoUrl;
+      };
+
+      const smsButton = document.createElement('button');
+      smsButton.textContent = 'Send SMS';
+      smsButton.onclick = () => {
+        window.location.href = `sms:?body=${encodeURIComponent(smsBody)}`;
+      };
+
+      buttonContainer.appendChild(mailtoButton);
+      buttonContainer.appendChild(smsButton);
+    });
+  </script>
 </body>
-<script>
-  const form = document.getElementById('emailForm');
-  const linkContainer = document.getElementById('linkContainer');
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const name = document.getElementById('name').value;
-    const email1 = document.getElementById('email1').value;
-    const email2 = document.getElementById('email2').value;
-    const email3 = document.getElementById('email3').value; 1 
-    const baseUrl = 'https://dymond.systems/page.html?name=';
-    const url = baseUrl + encodeURIComponent(name);
-
-    const subject = `Hello, ${name}!`;
-    const body = `This is a test email. Check out this link: ${url}`;
-    const toAddresses = [email1, email2, email3].filter(email => email.trim() !== '');
-    const toAddressString = toAddresses.join(',');
-
-    const mailtoUrl = `mailto:${toAddressString}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    const smsBody = `Hi ${name}, ${body}`;
-
-    const mailtoButton = document.createElement('button');
-    mailtoButton.textContent = 'Send Email';
-    mailtoButton.onclick = () => {
-      window.location.href = mailtoUrl;
-    };
-
-    const smsButton = document.createElement('button');
-    smsButton.textContent = 'Send SMS';
-    smsButton.onclick = () => {
-      window.location.href = `sms:?body=${encodeURIComponent(smsBody)}`;
-    };
-
-    linkContainer.appendChild(mailtoButton);
-    linkContainer.appendChild(smsButton);
-  });
-</script>
 </html>
