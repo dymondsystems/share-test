@@ -10,7 +10,13 @@
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name');
 
-    document.getElementById('nameDisplay').textContent = `Hello, ${name}!`;
+    // Check if name exists in URL parameters
+    if (name) {
+      document.getElementById('nameDisplay').textContent = `Hello, ${name}!`;
+    } else {
+      // Display default message if name is absent
+      document.getElementById('nameDisplay').textContent = "Hello, there!";
+    }
   </script>
 </body>
 </html>
